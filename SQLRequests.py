@@ -155,8 +155,6 @@ class SQLRequests:
         self.query += (" WHERE {cond}".format
                        (cond=cond))
 
-        print('query: ', self.query)
-
         return self
 
 

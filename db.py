@@ -13,7 +13,6 @@ data = {
     4 : {'name_state': 'Нидерландская Новая Гвинея', 'tg_id': 0}
 }
 
-print('vf')
 
 # Создает таблицу, если ее нет
 MasterSQL.create_table('supremacy.db',
@@ -21,14 +20,14 @@ MasterSQL.create_table('supremacy.db',
                        {'names' : type_indicator.text.value, 'tg_id' : type_indicator.integer.value},
                        True)
 
-# Добавляет в таблицу новую колонку
-MasterSQL.alter_table('supremacy.db',
-                      'states',
-                      {'map_id' : type_indicator.integer.value})
-
-# Удаляет таблицу, если она есть
-MasterSQL.drop_table('supremacy.db',
-                     'users')
+# # Добавляет в таблицу новую колонку
+# MasterSQL.alter_table('supremacy.db',
+#                       'states',
+#                       {'map_id' : type_indicator.integer.value})
+#
+# # Удаляет таблицу, если она есть
+# MasterSQL.drop_table('supremacy.db',
+#                      'users')
 
 # Заполняет таблицу данными
 for key, value in data.items():
@@ -42,3 +41,5 @@ MasterSQL.update_set_where_table('supremacy.db',
                                  'states',
                                  {'tg_id': 2525252525},
                                  {'names': 'Нидерландская Новая Гвинея'})
+
+print('рабочая программа')
