@@ -59,7 +59,7 @@ class SQLRequests:
         return self.query
 
 
-    def alter(self, name_table: str, add_arguments: dict):
+    def alter(self, name_table: str, add_arguments: dict) -> str:
         """
         Создает SQL-запрос для изменения таблицы. Добавляет новые колонки.
 
@@ -74,6 +74,20 @@ class SQLRequests:
         self.query = ("ALTER TABLE {name_table} "
                       "ADD {columns}".format
                       (name_table=name_table, columns=columns))
+
+        return self.query
+
+
+    def drop(self, name_table: str) -> str:
+        """
+        Создает SQL-запрос для удаления существующей таблицы.
+
+        :param name_table: Название таблицы, которую нужно удалить.
+        :return: SQL-запрос типа данных str.
+        """
+        # Создание SQL-запроса
+        self.query = ("DROP TABLE {name_table}".format
+                      (name_table=name_table))
 
         return self.query
 
