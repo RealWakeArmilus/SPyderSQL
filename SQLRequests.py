@@ -86,7 +86,7 @@ class SQLRequests:
         :return: SQL-запрос типа данных str.
         """
         # Создание SQL-запроса
-        self.query = ("DROP TABLE {name_table}".format
+        self.query = ("DROP TABLE IF EXISTS {name_table}".format
                       (name_table=name_table))
 
         return self.query

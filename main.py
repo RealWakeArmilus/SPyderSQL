@@ -12,23 +12,6 @@ database = sq.connect('data_jam.db')
 cursor = database.cursor()
 
 
-# # CREATE запрос
-# create_command = (sql_builder.create('users', {'login' : SQLite.text.value, 'password' : SQLite.integer.value, 'admin' : SQLite.blob.value}))
-#
-# print(create_command)
-#
-# db.execute(create_command)
-# db.commit()
-#
-#
-# # ALTER запрос
-# alter_command = (sql_builder
-#                  .alter('users',
-#                         {'ban' : SQLite.blob.value}))
-#
-# db.execute(alter_command)
-# db.commit()
-
 # CREATE запрос
 def create_table(name_table: str, arguments: dict):
     database.execute(sql_builder.create(name_table, arguments))
@@ -37,12 +20,19 @@ def create_table(name_table: str, arguments: dict):
 
 # ALTER запрос
 def alter_table(name_table: str, arguments: dict):
-    database.execute(sql_builder.alter(name_table,arguments))
+    database.execute(sql_builder.alter(name_table, arguments))
+    database.commit()
+
+
+# DROP запрос
+def drop_table(name_table: str):
+    database.execute(sql_builder.drop(name_table))
     database.commit()
 
 
 create_table('users', {'login' : SQLite.text.value, 'password' : SQLite.integer.value, 'admin' : SQLite.blob.value})
 alter_table('users', {'ban' : SQLite.blob.value})
+drop_table('users')
 
 
 # # SELECT запрос
