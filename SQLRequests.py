@@ -1,3 +1,5 @@
+from itertools import count
+
 import logger
 from my_exception import IsinstanceError
 
@@ -59,16 +61,16 @@ class SQLRequests:
         return self.query
 
 
-    def alter(self, name_table: str, add_arguments: dict) -> str:
+    def alter(self, name_table: str, add_argument: dict) -> str:
         """
         Создает SQL-запрос для изменения таблицы. Добавляет новые колонки.
 
         :param name_table: Название таблицы.
-        :param add_arguments: Словарь аргументов новых столбцов для созданной таблицы. Ключи - названия столбцов, значения - их типы.
+        :param add_argument: Словарь должен содержать элементы одного нового столбца для созданной таблицы. Ключи - название столбца, значения - их типы.
         :return: SQL-запрос типа данных str.
         """
         columns = makeup_columns(
-            add_arguments)
+            add_argument)
 
         # Создание SQL-запроса
         self.query = ("ALTER TABLE {name_table} "
@@ -88,6 +90,35 @@ class SQLRequests:
         # Создание SQL-запроса
         self.query = ("DROP TABLE IF EXISTS {name_table}".format
                       (name_table=name_table))
+
+        return self.query
+
+
+    def insert(self, name_table: str, names_colomns: list) -> str:
+        """
+        Создает INSERT запрос. Для заполнения уже созданной таблицы новыми данными.
+
+        :param name_table: Название таблицы.
+        :param names_colomns: Названия колонок таблиц.
+        :return: SQL-запрос типа данных str.
+        """
+        # Выписывание названий колонок
+        names_colomns = ", ".join(names_colomns)
+
+        # Подсчет колонок, с которыми будут взаимодействовать
+        count_colomns : int = len(names_colomns) + 1
+
+        values_colomns = []
+
+        for _ in 0, count_colomns:
+            values_colomns.append('?')
+
+        # Переход списка знаков "?" в формат str
+        values_colomns = ', '.join(values_colomns)
+
+        # Создание SQL-запроса
+        self.query = ("INSERT INTO {name_table} ({name_columns}) VALUES ({value_colomns})".format
+                      (name_table=name_table, name_columns=names_colomns, value_colomns=values_colomns))
 
         return self.query
 
@@ -128,28 +159,12 @@ class SQLRequests:
         return self.query
 
 
-    def order_by(self, columns: list, order: str = "ASC") -> str:
-        """
-        Добавляет ORDER BY в запрос.
-
-        :param columns: Колонка или список колонок для сортировки.
-        :param order: Порядок сортировки, "ASC" или "DESC".
-        :return: Экземпляр класса SQLRequests.
-        """
-        columns = ", ".join(columns)
-
-        self.query += (" ORDER BY {columns} {order}".format
-                       (columns=columns, order=order))
-
-        return self.query
-
-
     def limit(self, count: int) -> str:
         """
         Добавляет LIMIT в запрос.
 
         :param count: Количество строк для ограничения выборки.
-        :return: Экземпляр класса SQLRequests.
+        :return: SQL-запрос типа данных str.
         """
         self.query += (" LIMIT {count}".format
                        (count=count))
@@ -157,17 +172,18 @@ class SQLRequests:
         return self.query
 
 
-    def insert(self, name_table: str, data: dict) -> str:
+    def order_by(self, columns: list, order: str = "ASC") -> str:
         """
-        Создает INSERT запрос.
+        Добавляет ORDER BY в запрос.
 
-        :param name_table: Название таблицы.
-        :param data: Словарь данных для вставки.
-        :return: Экземпляр класса SQLRequests.
+        :param columns: Колонка или список колонок для сортировки.
+        :param order: Порядок сортировки, "ASC" или "DESC".
+        :return: SQL-запрос типа данных str.
         """
-        columns = ", ".join(data.keys())
-        values = ", ".join(f"'{v}'" for v in data.values())
-        self.query = f"INSERT INTO {name_table} ({columns}) VALUES ({values})"
+        columns = ", ".join(columns)
+
+        self.query += (" ORDER BY {columns} {order}".format
+                       (columns=columns, order=order))
 
         return self.query
 
