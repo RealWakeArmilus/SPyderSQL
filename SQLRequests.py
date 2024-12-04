@@ -1,5 +1,3 @@
-from itertools import count
-
 import logger
 from my_exception import IsinstanceError
 
@@ -34,14 +32,14 @@ class SQLRequests:
         return self.query
 
 
-    def create(self, name_table: str, arguments: dict, id_primary_key: bool = False) -> str:
+    def create(self, name_table: str, arguments: dict, id_primary_key: bool = False):
         """
         Создает SQL-запрос для создания таблицы, если она не существует, и возвращает его.
 
         :param name_table: Название создаваемой таблицы.
         :param arguments: Словарь аргументов столбцов таблицы. Ключи - названия столбцов, значения - их типы.
         :param id_primary_key: Добавить ли в начале таблицы уникальный id, для идентификации каждой записи. По умолчанию False - не добавлять, True - добавить
-        :return: SQL-запрос типа данных str.
+        :return: Экземпляр класса SQLRequests.
         """
         columns = ''
 
@@ -58,16 +56,16 @@ class SQLRequests:
                       "({columns})".format
                       (name_table=name_table, columns=columns))
 
-        return self.query
+        return self
 
 
-    def alter(self, name_table: str, add_argument: dict) -> str:
+    def alter(self, name_table: str, add_argument: dict):
         """
         Создает SQL-запрос для изменения таблицы. Добавляет новые колонки.
 
         :param name_table: Название таблицы.
         :param add_argument: Словарь должен содержать элементы одного нового столбца для созданной таблицы. Ключи - название столбца, значения - их типы.
-        :return: SQL-запрос типа данных str.
+        :return: Экземпляр класса SQLRequests.
         """
         columns = makeup_columns(
             add_argument)
@@ -77,30 +75,30 @@ class SQLRequests:
                       "ADD {columns}".format
                       (name_table=name_table, columns=columns))
 
-        return self.query
+        return self
 
 
-    def drop(self, name_table: str) -> str:
+    def drop(self, name_table: str):
         """
         Создает SQL-запрос для удаления существующей таблицы.
 
         :param name_table: Название таблицы, которую нужно удалить.
-        :return: SQL-запрос типа данных str.
+        :return: Экземпляр класса SQLRequests.
         """
         # Создание SQL-запроса
         self.query = ("DROP TABLE IF EXISTS {name_table}".format
                       (name_table=name_table))
 
-        return self.query
+        return self
 
 
-    def insert(self, name_table: str, names_colomns: list) -> str:
+    def insert(self, name_table: str, names_colomns: list):
         """
         Создает INSERT запрос. Для заполнения уже созданной таблицы новыми данными.
 
         :param name_table: Название таблицы.
         :param names_colomns: Названия колонок таблиц.
-        :return: SQL-запрос типа данных str.
+        :return: Экземпляр класса SQLRequests.
         """
         # Выписывание названий колонок
         names_colomns = ", ".join(names_colomns)
@@ -120,16 +118,16 @@ class SQLRequests:
         self.query = ("INSERT INTO {name_table} ({name_columns}) VALUES ({value_colomns})".format
                       (name_table=name_table, name_columns=names_colomns, value_colomns=values_colomns))
 
-        return self.query
+        return self
 
 
-    def select(self, name_table: str, columns: list) -> str:
+    def select(self, name_table: str, columns: list):
         """
         Создает базовый SELECT запрос.
 
         :param name_table: Название таблицы.
         :param columns: Список колонок для выборки или строка "*".
-        :return: SQL-запрос типа данных str.
+        :return: Экземпляр класса SQLRequests.
         """
         columns = ", ".join(columns)
 
@@ -139,68 +137,76 @@ class SQLRequests:
                       (columns=columns,
                        name_table=name_table))
 
-        return self.query
+        return self
 
 
-    def where(self, conditions: dict) -> str:
+    def where(self, conditions: dict):
         """
         Добавляет WHERE условия в запрос.
 
         :param conditions: Строка или словарь условий.
-        :return: SQL-запрос типа данных str.
+        :return: Экземпляр класса SQLRequests.
         """
-        cond = " AND ".join("{argument} = '{status}'".format
-                            (argument=key, status=value)
-                            for key, value in conditions.items())
+        cond = " AND ".join("{key} = {value}".format(key=key, value=value) if isinstance(value, (int, bool))
+            else "{key} = '{value}'".format(key=key, value=value)
+            for key, value in conditions.items()
+        )
 
         self.query += (" WHERE {cond}".format
                        (cond=cond))
 
-        return self.query
+        print('query: ', self.query)
+
+        return self
 
 
-    def limit(self, count: int) -> str:
+    def limit(self, count: int):
         """
         Добавляет LIMIT в запрос.
 
         :param count: Количество строк для ограничения выборки.
-        :return: SQL-запрос типа данных str.
+        :return: Экземпляр класса SQLRequests.
         """
         self.query += (" LIMIT {count}".format
                        (count=count))
 
-        return self.query
+        return self
 
 
-    def order_by(self, columns: list, order: str = "ASC") -> str:
+    def order_by(self, columns: list, order: str = "ASC"):
         """
         Добавляет ORDER BY в запрос.
 
         :param columns: Колонка или список колонок для сортировки.
         :param order: Порядок сортировки, "ASC" или "DESC".
-        :return: SQL-запрос типа данных str.
+        :return: Экземпляр класса SQLRequests.
         """
         columns = ", ".join(columns)
 
         self.query += (" ORDER BY {columns} {order}".format
                        (columns=columns, order=order))
 
-        return self.query
+        return self
 
 
-    def update(self, table, data, conditions=None):
+    def update(self, name_table: str, data_set: dict, conditions=None):
         """
-        Создает UPDATE запрос.
+        Создает UPDATE запрос. Для обновления данных конкретной записи или записей.
 
-        :param table: Название таблицы.
-        :param data: Словарь данных для обновления.
+        :param name_table: Название таблицы.
+        :param data_set: Словарь данных для обновления.
         :param conditions: Условия для обновления.
         :return: Экземпляр класса SQLRequests.
         """
-        updates = ", ".join(f"{k} = '{v}'" for k, v in data.items())
-        self.query = f"UPDATE {table} SET {updates}"
+        updates = ", ".join("{key} = '{value}'".format(key=key, value=value)
+                            for key, value in data_set.items())
+
+        self.query = "UPDATE {name_table} SET {updates}".format(name_table=name_table, updates=updates)
+
         if conditions:
+
             self.where(conditions)
+
         return self
 
 
@@ -233,7 +239,9 @@ class SQLRequests:
         :return: Строка SQL-запроса.
         """
         query = self.query
+
         self.reset()
+
         return query
 
 

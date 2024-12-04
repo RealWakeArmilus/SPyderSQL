@@ -13,14 +13,15 @@ cursor = database.cursor()
 
 
 # CREATE запрос
-def create_table(name_table: str, arguments: dict):
+def create_table(name_table: str, arguments: dict, id_primary_key: bool = False):
     """
-    Запрос для создания таблицы
+    Запрос для создания таблицы, если таковой нет.
 
     :param name_table: Название таблицы.
     :param arguments: Словарь аргументов столбцов таблицы. Ключи - названия столбцов, значения - их типы.
+    :param id_primary_key: Добавить ли в начале таблицы уникальный id, для идентификации каждой записи. По умолчанию False - не добавлять, True - добавить
     """
-    database.execute(sql_builder.create(name_table, arguments))
+    database.execute(sql_builder.create(name_table, arguments, id_primary_key).build())
     database.commit()
 
 
@@ -32,7 +33,7 @@ def alter_table(name_table: str, argument: dict):
     :param name_table: Название таблицы.
     :param argument: Словарь должен содержать элементы одного нового столбца для созданной таблицы. Ключи - название столбца, значения - их типы.
     """
-    database.execute(sql_builder.alter(name_table, argument))
+    database.execute(sql_builder.alter(name_table, argument).build())
     database.commit()
 
 
@@ -43,31 +44,62 @@ def drop_table(name_table: str):
 
     :param name_table: Название таблицы.
     """
-    database.execute(sql_builder.drop(name_table))
+    database.execute(sql_builder.drop(name_table).build())
     database.commit()
 
 
+# INSERT запрос
 def insert_table(name_table: str, names_colomns: list, values_colomns: tuple):
-    database.execute(sql_builder.insert(name_table, names_colomns), values_colomns)
+    """
+    Запрос для заполнения таблицы новыми данными.
+
+    :param name_table: Название таблицы.
+    :param names_colomns: Список названий колонок таблиц.
+    :param values_colomns: Кортеж данных, которые заполняются в колонки таблиц.
+    """
+    database.execute(sql_builder.insert(name_table, names_colomns).build(), values_colomns)
     database.commit()
 
 
-create_table('states', {'names' : SQLite.text.value, 'tg_id' : SQLite.integer.value})
-alter_table('states', {'map_id' : SQLite.integer.value})
-# drop_table('users')
+# UPDATE запрос
+def update_set_where_table(name_table: str, data_set: dict, data_where: dict = None):
+    """
+    Запрос для изменения содержания конкретной или группы записей, схожих по определенному признаку (пример: одинаковый возраст)
+
+    :param name_table: Название таблицы.
+    :param data_set: Словарь для установки нового значения. Key - название колонки, Value - новое значение.
+    :param data_where: Словарь по которому будет осуществляться поиск. Key - название колонки, Value - поисковое значение.
+    """
+    database.execute(sql_builder.update(name_table, data_set, data_where).build())
+    database.commit()
 
 
 data = {
     1 : {'name_state': 'Франция', 'tg_id': 13523532},
     2 : {'name_state': 'Испания', 'tg_id': 42523532},
-    3 : {'name_state': 'Германская Империя', 'tg_id': 75433534}
+    3 : {'name_state': 'Германская Империя', 'tg_id': 75433534},
+    4 : {'name_state': 'Нидерландская Новая Гвинея', 'tg_id': 0}
 }
 
 
-for key, value in data.items():
-    insert_table('states', ['names', 'tg_id'], (value['name_state'], value['tg_id']))
 
+# create_table('states',
+#              {'names' : SQLite.text.value, 'tg_id' : SQLite.integer.value},
+#              True)
 
+# alter_table('states',
+#             {'map_id' : SQLite.integer.value})
+
+# drop_table('users')
+
+# for key, value in data.items():
+#     insert_table('states',
+#                  ['names', 'tg_id'],
+#                  (value['name_state'], value['tg_id']))
+
+update_set_where_table('states',
+                       {'tg_id': 2525252525},
+                       {'names': 'Нидерландская Новая Гвинея'})
 
 
 
