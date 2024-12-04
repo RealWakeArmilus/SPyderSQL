@@ -13,6 +13,7 @@ data = {
     4 : {'name_state': 'Нидерландская Новая Гвинея', 'tg_id': 0}
 }
 
+print('vf')
 
 # Создает таблицу, если ее нет
 MasterSQL.create_table('supremacy.db',
