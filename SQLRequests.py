@@ -92,7 +92,7 @@ class SQLRequests:
         return self.query
 
 
-    def select(self, name_table: str, columns: list):
+    def select(self, name_table: str, columns: list) -> str:
         """
         Создает базовый SELECT запрос.
 
@@ -104,29 +104,31 @@ class SQLRequests:
 
         # Создание SQL-запроса
         self.query = ("SELECT {columns} "
-                      "FROM {table}".format
+                      "FROM {name_table}".format
                       (columns=columns,
-                       table=name_table))
+                       name_table=name_table))
 
         return self.query
 
 
-    def where(self, conditions):
+    def where(self, conditions: dict) -> str:
         """
         Добавляет WHERE условия в запрос.
 
         :param conditions: Строка или словарь условий.
         :return: SQL-запрос типа данных str.
         """
-        if isinstance(conditions, dict):
-            cond = " AND ".join(f"{k} = '{v}'" for k, v in conditions.items())
-        else:
-            cond = conditions
-        self.query += f" WHERE {cond}"
+        cond = " AND ".join("{argument} = '{status}'".format
+                            (argument=key, status=value)
+                            for key, value in conditions.items())
+
+        self.query += (" WHERE {cond}".format
+                       (cond=cond))
+
         return self.query
 
 
-    def order_by(self, columns, order="ASC"):
+    def order_by(self, columns: list, order: str = "ASC") -> str:
         """
         Добавляет ORDER BY в запрос.
 
@@ -134,35 +136,40 @@ class SQLRequests:
         :param order: Порядок сортировки, "ASC" или "DESC".
         :return: Экземпляр класса SQLRequests.
         """
-        if isinstance(columns, (list, tuple)):
-            columns = ", ".join(columns)
-        self.query += f" ORDER BY {columns} {order}"
-        return self
+        columns = ", ".join(columns)
+
+        self.query += (" ORDER BY {columns} {order}".format
+                       (columns=columns, order=order))
+
+        return self.query
 
 
-    def limit(self, count):
+    def limit(self, count: int) -> str:
         """
         Добавляет LIMIT в запрос.
 
         :param count: Количество строк для ограничения выборки.
         :return: Экземпляр класса SQLRequests.
         """
-        self.query += f" LIMIT {count}"
-        return self
+        self.query += (" LIMIT {count}".format
+                       (count=count))
+
+        return self.query
 
 
-    def insert(self, table, data):
+    def insert(self, name_table: str, data: dict) -> str:
         """
         Создает INSERT запрос.
 
-        :param table: Название таблицы.
+        :param name_table: Название таблицы.
         :param data: Словарь данных для вставки.
         :return: Экземпляр класса SQLRequests.
         """
         columns = ", ".join(data.keys())
         values = ", ".join(f"'{v}'" for v in data.values())
-        self.query = f"INSERT INTO {table} ({columns}) VALUES ({values})"
-        return self
+        self.query = f"INSERT INTO {name_table} ({columns}) VALUES ({values})"
+
+        return self.query
 
 
     def update(self, table, data, conditions=None):
