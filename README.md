@@ -11,16 +11,16 @@ SQL (Structured Query Language) используется для работы с 
 Управление структурой базы данных: создание, изменение, удаление таблиц или схем.
 
 - `CREATE` – создание таблицы или базы данных.  
-  Пример: `CREATE TABLE users (id INT, name TEXT, age INT);`  
+  Пример: `CREATE TABLE {name_table} ({columns and types});`  
   Создаёт таблицу.
 
 - `ALTER` – изменение таблицы. (Переименовать таблицу.
 Добавьте новый столбец в таблицу).
-  Пример: `ALTER TABLE users ADD email TEXT;`  
+  Пример: `ALTER TABLE {name_table} ADD {one_column and type};`  
   Добавляет колонку email.
 
 - `DROP` – удаление таблицы или базы.  
-  Пример: `DROP TABLE users;`  
+  Пример: `DROP TABLE {name_table};`  
   Удаляет таблицу.
 
 #### 2. DML (Data Manipulation Language)
@@ -28,19 +28,19 @@ SQL (Structured Query Language) используется для работы с 
   Работа с данными: добавление, обновление, удаление.
 
 - `SELECT` – выборка данных из таблицы.  
-  Пример: `SELECT name FROM users WHERE age > 18;`  
+  Пример: `SELECT {columns} FROM {name_table} WHERE age > 18;`  
   Выводит имена пользователей старше 18 лет.  
 
 - `INSERT` – добавление записей в таблицу.  
-  Пример: `INSERT INTO users (name, age) VALUES ('Иван', 25);`  
+  Пример: `INSERT INTO {name_table} ({columns}) VALUES ('Иван', 25);`  
   Добавляет новую запись.  
 
 - `UPDATE` – обновление записей.  
-  Пример: `UPDATE users SET age = 30 WHERE name = 'Иван';`  
+  Пример: `UPDATE {name_table} SET age = 30 WHERE name = 'Иван';`  
   Изменяет возраст на 30 для пользователя Иван.  
 
 - `DELETE` – удаление записей.  
-  Пример: `DELETE FROM users WHERE age < 18;`  
+  Пример: `DELETE FROM {name_table} WHERE age < 18;`  
   Удаляет всех пользователей младше 18 лет.
 
 #### 3. DCL (Data Control Language)
@@ -48,11 +48,11 @@ SQL (Structured Query Language) используется для работы с 
 Управление правами доступа к базе.
 
 - `GRANT` – предоставление прав.  
-  Пример: `GRANT SELECT ON users TO 'admin';`  
+  Пример: `GRANT SELECT ON {name_table} TO 'admin';`  
   Даёт права на просмотр данных пользователю admin.  
 
 - `REVOKE` – удаление прав.  
-  Пример: `REVOKE SELECT ON users FROM 'admin';`  
+  Пример: `REVOKE SELECT ON {name_table} FROM 'admin';`  
   Удаляет права.  
 
 #### 4. TCL (Transaction Control Language)
