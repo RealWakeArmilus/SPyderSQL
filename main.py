@@ -1,6 +1,4 @@
-import MasterSQL
-import TypesSQL
-
+from AboutMasterSQL import MasterSQL, TypesSQL
 
 # Индикатор типа колонки
 type_colomn = TypesSQL.SQLite
