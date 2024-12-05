@@ -36,10 +36,10 @@ for tg_id in data_id:
                            ['tg_id', 'admin'],
                            (tg_id, False))
 
-MasterSQL.update_set_where_table(name_database,
-                                 'tg_users',
-                                 {'admin': True},
-                                 {'tg_id': 23971037})
+MasterSQL.update_table(name_database,
+                       'tg_users',
+                       {'admin': True},
+                       {'tg_id': 23971037})
 
 
 
@@ -66,7 +66,7 @@ for key, value in data_states.items():
                            (value['name_state'], value['tg_id']))
 
 # Обновляет данные в выбранных колонках
-MasterSQL.update_set_where_table(name_database,
-                                 'states',
-                                 {'tg_id': 2525252525},
-                                 {'names': 'Нидерландская Новая Гвинея'})
+MasterSQL.update_table(name_database,
+                       'states',
+                       {'tg_id': 2525252525},
+                       {'names': 'Нидерландская Новая Гвинея'})

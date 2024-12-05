@@ -68,7 +68,7 @@ def insert_table(name_database: str, name_table: str, names_colomns: list, value
 
 
 # UPDATE запрос
-def update_set_where_table(name_database: str, name_table: str, data_set: dict, data_where: dict = None):
+def update_table(name_database: str, name_table: str, data_set: dict, data_where: dict = None):
     """
     Запрос для изменения содержания конкретной или группы записей, схожих по определенному признаку
 
