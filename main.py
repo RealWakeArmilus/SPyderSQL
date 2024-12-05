@@ -1,6 +1,6 @@
 from AboutMasterSQL import MasterSQL, TypesSQL
 
-# Индикатор типа колонки
+# Индикатор типа столбца
 type_colomn = TypesSQL.SQLite
 
 
