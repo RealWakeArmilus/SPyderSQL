@@ -70,5 +70,3 @@ MasterSQL.update_set_where_table(name_database,
                                  'states',
                                  {'tg_id': 2525252525},
                                  {'names': 'Нидерландская Новая Гвинея'})
-
-print('рабочая программа main')
