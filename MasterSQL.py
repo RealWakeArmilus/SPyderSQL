@@ -7,31 +7,33 @@ sql_builder = SQLRequests()
 
 
 # CREATE запрос
-def create_table(name_database: str, name_table: str, arguments: dict, id_primary_key: bool = False):
+def create_table(name_database: str, name_table: str, colomns: dict, id_primary_key: bool = False):
     """
     Запрос для создания таблицы, если таковой нет.
 
     :param name_database: Название базы данных.
     :param name_table: Название таблицы.
-    :param arguments: Словарь аргументов столбцов таблицы. Ключи - названия столбцов, значения - их типы.
+    :param colomns: Словарь столбцов таблицы. Ключи - названия столбцов, значения - их типы.
     :param id_primary_key: Добавить ли в начале таблицы уникальный id, для идентификации каждой записи. По умолчанию False - не добавлять, True - добавить
     """
     database = sq.connect(name_database)
-    database.execute(sql_builder.create(name_table, arguments, id_primary_key).build())
+    database.execute(sql_builder.create(name_table, colomns, id_primary_key).build())
     database.commit()
 
 
 # ALTER запрос
-def alter_table(name_database: str, name_table: str, argument: dict):
+def alter_table(name_database: str, name_table: str, add_colomn: dict):
     """
     Запрос для добавления ОДНОЙ колонки в таблицу
 
+    Примечание: В add_colomn должно быть максимум 1 пара значений
+
     :param name_database: Название базы данных.
     :param name_table: Название таблицы.
-    :param argument: Словарь должен содержать элементы одного нового столбца для созданной таблицы. Ключи - название столбца, значения - их типы.
+    :param add_colomn: Словарь должен содержать элементы одного нового столбца для созданной таблицы. Ключи - название столбца, значения - их типы.
     """
     database = sq.connect(name_database)
-    database.execute(sql_builder.alter(name_table, argument).build())
+    database.execute(sql_builder.alter(name_table, add_colomn).build())
     database.commit()
 
 
@@ -52,6 +54,8 @@ def drop_table(name_database: str, name_table: str):
 def insert_table(name_database: str, name_table: str, names_colomns: list, values_colomns: tuple):
     """
     Запрос для заполнения таблицы новыми данными.
+
+    Примечание: В values_colomns должно быть минимум 2 значения
 
     :param name_database: Название базы данных.
     :param name_table: Название таблицы.

@@ -32,12 +32,12 @@ class SQLRequests:
         return self.query
 
 
-    def create(self, name_table: str, arguments: dict, id_primary_key: bool = False):
+    def create(self, name_table: str, colomns: dict, id_primary_key: bool = False):
         """
         Создает SQL-запрос для создания таблицы, если она не существует, и возвращает его.
 
         :param name_table: Название создаваемой таблицы.
-        :param arguments: Словарь аргументов столбцов таблицы. Ключи - названия столбцов, значения - их типы.
+        :param colomns: Словарь столбцов таблицы. Ключи - названия столбцов, значения - их типы.
         :param id_primary_key: Добавить ли в начале таблицы уникальный id, для идентификации каждой записи. По умолчанию False - не добавлять, True - добавить
         :return: Экземпляр класса SQLRequests.
         """
@@ -48,7 +48,7 @@ class SQLRequests:
             columns = 'id INTEGER PRIMARY KEY AUTOINCREMENT, '
 
         columns = makeup_columns(
-            arguments,
+            colomns,
             columns)
 
         # Создание SQL-запроса
@@ -59,21 +59,21 @@ class SQLRequests:
         return self
 
 
-    def alter(self, name_table: str, add_argument: dict):
+    def alter(self, name_table: str, add_colomn: dict):
         """
         Создает SQL-запрос для изменения таблицы. Добавляет новые колонки.
 
         :param name_table: Название таблицы.
-        :param add_argument: Словарь должен содержать элементы одного нового столбца для созданной таблицы. Ключи - название столбца, значения - их типы.
+        :param add_colomn: Словарь должен содержать элементы одного нового столбца для созданной таблицы. Ключи - название столбца, значения - их типы.
         :return: Экземпляр класса SQLRequests.
         """
-        columns = makeup_columns(
-            add_argument)
+        column = makeup_columns(
+            add_colomn)
 
         # Создание SQL-запроса
         self.query = ("ALTER TABLE {name_table} "
-                      "ADD {columns}".format
-                      (name_table=name_table, columns=columns))
+                      "ADD {column}".format
+                      (name_table=name_table, column=column))
 
         return self
 
