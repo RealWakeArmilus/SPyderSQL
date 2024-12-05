@@ -6,7 +6,7 @@ import TypesSQL
 type_colomn = TypesSQL.SQLite
 
 
-name_database = 'supremacy.db'
+name_database = 'database/supremacy.db'
 
 data_id = [12345678, 1641924, 3418749, 9384194, 23971037, 23074102, 2372389, 239873964, 28749364, 2398792]
 
