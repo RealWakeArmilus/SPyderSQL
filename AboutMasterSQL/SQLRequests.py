@@ -19,7 +19,7 @@ def makeup_columns(arguments: dict, columns: str = '') -> str:
 
 
 
-class SQLRequests:
+class SQLite:
 
 
     def __init__(self):
@@ -121,20 +121,20 @@ class SQLRequests:
         return self
 
 
-    def select(self, name_table: str, columns: list):
+    def select(self, name_table: str, names_columns = '*'):
         """
         Создает базовый SELECT запрос. Для выборки данных из таблицы.
 
         :param name_table: Название таблицы.
-        :param columns: Список колонок для выборки или строка "*".
+        :param names_columns: Список названий столбцов для выборки или строка "*", означающая вывод всех столбцов.
         :return: Экземпляр класса SQLRequests.
         """
-        columns = ", ".join(columns)
+        names_columns = ", ".join(names_columns)
 
         # Создание SQL-запроса
         self.query = ("SELECT {columns} "
                       "FROM {name_table}".format
-                      (columns=columns,
+                      (columns=names_columns,
                        name_table=name_table))
 
         return self
@@ -175,7 +175,7 @@ class SQLRequests:
         """
         Добавляет ORDER BY в запрос.
 
-        :param columns: Колонка или список колонок для сортировки.
+        :param columns: Список колонок для сортировки.
         :param order: Порядок сортировки, "ASC" или "DESC".
         :return: Экземпляр класса SQLRequests.
         """
@@ -187,7 +187,7 @@ class SQLRequests:
         return self
 
 
-    def update(self, name_table: str, data_set: dict, conditions=None):
+    def update(self, name_table: str, data_set: dict, conditions: dict = None):
         """
         Создает UPDATE запрос. Для обновления данных конкретной записи или записей.
 
@@ -209,7 +209,7 @@ class SQLRequests:
         return self
 
 
-    def delete(self, name_table: str, conditions=None):
+    def delete(self, name_table: str, conditions: dict = None):
         """
         Создает DELETE запрос. Удаление записи из таблицы
 

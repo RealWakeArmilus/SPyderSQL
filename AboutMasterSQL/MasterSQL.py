@@ -1,9 +1,9 @@
-from SQLRequests import SQLRequests
+from AboutMasterSQL import SQLRequests
 import sqlite3 as sq
 
 
 # экземпляр класса по созданию SQL-запросов
-sql_builder = SQLRequests()
+sql_builder = SQLRequests.SQLite()
 
 
 # CREATE запрос
@@ -80,6 +80,67 @@ def update_table(name_database: str, name_table: str, data_set: dict, data_where
     database = sq.connect(name_database)
     database.execute(sql_builder.update(name_table, data_set, data_where).build())
     database.commit()
+
+
+def all_select_table(name_database: str, name_table: str, names_columns = '*', data_where: dict = None, columns_order: list = None, order: str = None, count_limit: int = None):
+
+    database = sq.connect(name_database)
+    database.execute(sql_builder
+                     .select(name_table, names_columns)
+                     .where(data_where)
+                     .order_by(columns_order, order)
+                     .limit(count_limit)
+                     .build())
+    database.commit()
+
+
+def select_table(name_database: str, name_table: str, names_columns: list = '*'):
+    database = sq.connect(name_database)
+    cursor = database.cursor()
+
+    cursor.execute(sql_builder
+                     .select(name_table, names_columns)
+                     .build())
+
+    data_table = cursor.fetchall()
+
+    result = []
+
+    if names_columns != '*':
+
+        result = map_keys_to_values(names_columns, data_table)
+
+    elif names_columns == '*':
+
+        cursor.execute("pragma table_info({name_table})".format(name_table=name_table))
+        columns = [row[1] for row in cursor.fetchall()]
+
+        result = map_keys_to_values(columns, data_table)
+
+    return result
+
+
+def map_keys_to_values(keys: list, values: list) -> list:
+    """
+    Создает словари в списке, сопоставляя ключи с элементами кортежа
+
+    :param keys: названия столбцов
+    :param values:
+    :return:
+    """
+
+    result = []
+
+    for val in values:
+        # Создаем словарь, сопоставляя ключи с элементами кортежа
+        mapped = {keys[index]: val[index] for index in range(len(keys))}
+
+        result.append(mapped)
+
+    return result
+
+
+
 
 
 
