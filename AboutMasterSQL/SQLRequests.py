@@ -32,12 +32,12 @@ class SQLRequests:
         return self.query
 
 
-    def create(self, name_table: str, colomns: dict, id_primary_key: bool = False):
+    def create(self, name_table: str, append_columns: dict, id_primary_key: bool = False):
         """
         Создает SQL-запрос для создания таблицы, если она не существует, и возвращает его.
 
         :param name_table: Название создаваемой таблицы.
-        :param colomns: Словарь столбцов таблицы. Ключи - названия столбцов, значения - их типы.
+        :param append_columns: Словарь столбцов таблицы. Ключи - названия столбцов, значения - их типы.
         :param id_primary_key: Добавить ли в начале таблицы уникальный id, для идентификации каждой записи. По умолчанию False - не добавлять, True - добавить
         :return: Экземпляр класса SQLRequests.
         """
@@ -48,7 +48,7 @@ class SQLRequests:
             columns = 'id INTEGER PRIMARY KEY AUTOINCREMENT, '
 
         columns = makeup_columns(
-            colomns,
+            append_columns,
             columns)
 
         # Создание SQL-запроса
@@ -59,16 +59,16 @@ class SQLRequests:
         return self
 
 
-    def alter(self, name_table: str, add_colomn: dict):
+    def alter(self, name_table: str, add_column: dict):
         """
         Создает SQL-запрос для изменения таблицы. Добавляет новые колонки.
 
         :param name_table: Название таблицы.
-        :param add_colomn: Словарь должен содержать элементы одного нового столбца для созданной таблицы. Ключи - название столбца, значения - их типы.
+        :param add_column: Словарь должен содержать элементы одного нового столбца для созданной таблицы. Ключи - название столбца, значения - их типы.
         :return: Экземпляр класса SQLRequests.
         """
         column = makeup_columns(
-            add_colomn)
+            add_column)
 
         # Создание SQL-запроса
         self.query = ("ALTER TABLE {name_table} "
@@ -92,31 +92,31 @@ class SQLRequests:
         return self
 
 
-    def insert(self, name_table: str, names_colomns: list):
+    def insert(self, name_table: str, names_columns: list):
         """
         Создает INSERT запрос. Для заполнения уже созданной таблицы новыми данными.
 
         :param name_table: Название таблицы.
-        :param names_colomns: Названия колонок таблиц.
+        :param names_columns: Названия колонок таблиц.
         :return: Экземпляр класса SQLRequests.
         """
         # Выписывание названий колонок
-        names_colomns = ", ".join(names_colomns)
+        names_columns = ", ".join(names_columns)
 
         # Подсчет колонок, с которыми будут взаимодействовать
-        count_colomns : int = len(names_colomns) + 1
+        count_columns : int = len(names_columns) + 1
 
-        values_colomns = []
+        values_columns = []
 
-        for _ in 0, count_colomns:
-            values_colomns.append('?')
+        for _ in 0, count_columns:
+            values_columns.append('?')
 
         # Переход списка знаков "?" в формат str
-        values_colomns = ', '.join(values_colomns)
+        values_columns = ', '.join(values_columns)
 
         # Создание SQL-запроса
         self.query = ("INSERT INTO {name_table} ({name_columns}) VALUES ({value_colomns})".format
-                      (name_table=name_table, name_columns=names_colomns, value_colomns=values_colomns))
+                      (name_table=name_table, name_columns=names_columns, value_colomns=values_columns))
 
         return self
 

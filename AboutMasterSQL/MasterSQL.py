@@ -7,33 +7,33 @@ sql_builder = SQLRequests()
 
 
 # CREATE запрос
-def create_table(name_database: str, name_table: str, colomns: dict, id_primary_key: bool = False):
+def create_table(name_database: str, name_table: str, columns: dict, id_primary_key: bool = False):
     """
     Запрос для создания таблицы, если таковой нет.
 
     :param name_database: Название базы данных.
     :param name_table: Название таблицы.
-    :param colomns: Словарь столбцов таблицы. Ключи - названия столбцов, значения - их типы.
+    :param columns: Словарь столбцов таблицы. Ключи - названия столбцов, значения - их типы.
     :param id_primary_key: Добавить ли в начале таблицы уникальный id, для идентификации каждой записи. По умолчанию False - не добавлять, True - добавить
     """
     database = sq.connect(name_database)
-    database.execute(sql_builder.create(name_table, colomns, id_primary_key).build())
+    database.execute(sql_builder.create(name_table, columns, id_primary_key).build())
     database.commit()
 
 
 # ALTER запрос
-def alter_table(name_database: str, name_table: str, add_colomn: dict):
+def alter_table(name_database: str, name_table: str, add_column: dict):
     """
     Запрос для добавления ОДНОЙ колонки в таблицу
 
-    Примечание: В add_colomn должно быть максимум 1 пара значений
+    Примечание: В add_column должно быть максимум 1 пара значений
 
     :param name_database: Название базы данных.
     :param name_table: Название таблицы.
-    :param add_colomn: Словарь должен содержать элементы одного нового столбца для созданной таблицы. Ключи - название столбца, значения - их типы.
+    :param add_column: Словарь должен содержать элементы одного нового столбца для созданной таблицы. Ключи - название столбца, значения - их типы.
     """
     database = sq.connect(name_database)
-    database.execute(sql_builder.alter(name_table, add_colomn).build())
+    database.execute(sql_builder.alter(name_table, add_column).build())
     database.commit()
 
 
@@ -51,19 +51,19 @@ def drop_table(name_database: str, name_table: str):
 
 
 # INSERT запрос
-def insert_table(name_database: str, name_table: str, names_colomns: list, values_colomns: tuple):
+def insert_table(name_database: str, name_table: str, names_columns: list, values_columns: tuple):
     """
     Запрос для заполнения таблицы новыми данными.
 
-    Примечание: В values_colomns должно быть минимум 2 значения
+    Примечание: В values_columns должно быть минимум 2 значения
 
     :param name_database: Название базы данных.
     :param name_table: Название таблицы.
-    :param names_colomns: Список названий колонок таблиц.
-    :param values_colomns: Кортеж данных, которые заполняются в колонки таблиц.
+    :param names_columns: Список названий колонок таблиц.
+    :param values_columns: Кортеж данных, которые заполняются в колонки таблиц.
     """
     database = sq.connect(name_database)
-    database.execute(sql_builder.insert(name_table, names_colomns).build(), values_colomns)
+    database.execute(sql_builder.insert(name_table, names_columns).build(), values_columns)
     database.commit()
 
 
