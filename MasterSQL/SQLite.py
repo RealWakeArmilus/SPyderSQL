@@ -6,6 +6,27 @@ import sqlite3 as sq
 sql_builder = SQLRequests.SQLite()
 
 
+# Сопоставляет ключи с элементами
+def map_keys_to_values(keys: list, values: list) -> list:
+    """
+    Создает словари в списке, сопоставляя ключи с элементами
+
+    :param keys: названия столбцов
+    :param values: содержание столбцов
+    :return: список названий нужных ключей с сопоставленными элементами
+    """
+
+    formatted_keys_to_values = []
+
+    for val in values:
+        # Создаем словарь, сопоставляя ключи с элементами
+        mapped = {keys[index]: val[index] for index in range(len(keys))}
+
+        formatted_keys_to_values.append(mapped)
+
+    return formatted_keys_to_values
+
+
 # CREATE запрос
 def create_table(name_database: str, name_table: str, columns: dict, id_primary_key: bool = False):
     """
@@ -82,19 +103,16 @@ def update_table(name_database: str, name_table: str, data_set: dict, data_where
     database.commit()
 
 
-def all_select_table(name_database: str, name_table: str, names_columns = '*', data_where: dict = None, columns_order: list = None, order: str = None, count_limit: int = None):
+# SELECT запрос
+def select_table(name_database: str, name_table: str, names_columns: list = '*') -> list:
+    """
+    Запрос для вывода из таблицы данные.
 
-    database = sq.connect(name_database)
-    database.execute(sql_builder
-                     .select(name_table, names_columns)
-                     .where(data_where)
-                     .order_by(columns_order, order)
-                     .limit(count_limit)
-                     .build())
-    database.commit()
-
-
-def select_table(name_database: str, name_table: str, names_columns: list = '*'):
+    :param name_database: Название базы данных.
+    :param name_table: Название таблицы.
+    :param names_columns: Список названий столбцов, из которых хотим получить данные. Если хотим получить из всех ничего не пишем, по умолчанию "*" - то есть все столбцы.
+    :return:
+    """
     database = sq.connect(name_database)
     cursor = database.cursor()
 
@@ -104,41 +122,32 @@ def select_table(name_database: str, name_table: str, names_columns: list = '*')
 
     data_table = cursor.fetchall()
 
-    result = []
+    formatted_data_for_output = []
 
     if names_columns != '*':
 
-        result = map_keys_to_values(names_columns, data_table)
+        formatted_data_for_output = map_keys_to_values(names_columns, data_table)
 
     elif names_columns == '*':
 
         cursor.execute("pragma table_info({name_table})".format(name_table=name_table))
         columns = [row[1] for row in cursor.fetchall()]
 
-        result = map_keys_to_values(columns, data_table)
+        formatted_data_for_output = map_keys_to_values(columns, data_table)
 
-    return result
+    return formatted_data_for_output
 
 
-def map_keys_to_values(keys: list, values: list) -> list:
-    """
-    Создает словари в списке, сопоставляя ключи с элементами кортежа
-
-    :param keys: названия столбцов
-    :param values:
-    :return:
-    """
-
-    result = []
-
-    for val in values:
-        # Создаем словарь, сопоставляя ключи с элементами кортежа
-        mapped = {keys[index]: val[index] for index in range(len(keys))}
-
-        result.append(mapped)
-
-    return result
-
+# def all_select_table(name_database: str, name_table: str, names_columns = '*', data_where: dict = None, columns_order: list = None, order: str = None, count_limit: int = None):
+#
+#     database = sq.connect(name_database)
+#     database.execute(sql_builder
+#                      .select(name_table, names_columns)
+#                      .where(data_where)
+#                      .order_by(columns_order, order)
+#                      .limit(count_limit)
+#                      .build())
+#     database.commit()
 
 
 
