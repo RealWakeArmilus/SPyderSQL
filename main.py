@@ -5,7 +5,7 @@ from MasterSQL import SQLite, TypesSQL
 MasterSQL = SQLite
 
 # Индикатор типа столбца
-type_colomn = TypesSQL.SQLite
+type_column = TypesSQL.SQLite
 
 
 name_database = 'database/supremacy.db'
