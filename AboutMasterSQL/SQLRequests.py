@@ -123,7 +123,7 @@ class SQLRequests:
 
     def select(self, name_table: str, columns: list):
         """
-        Создает базовый SELECT запрос.
+        Создает базовый SELECT запрос. Для выборки данных из таблицы.
 
         :param name_table: Название таблицы.
         :param columns: Список колонок для выборки или строка "*".
@@ -142,7 +142,7 @@ class SQLRequests:
 
     def where(self, conditions: dict):
         """
-        Добавляет WHERE условия в запрос.
+        Добавляет WHERE условия в запрос. Для поиска записей.
 
         :param conditions: Строка или словарь условий.
         :return: Экземпляр класса SQLRequests.
@@ -199,7 +199,8 @@ class SQLRequests:
         updates = ", ".join("{key} = '{value}'".format(key=key, value=value)
                             for key, value in data_set.items())
 
-        self.query = "UPDATE {name_table} SET {updates}".format(name_table=name_table, updates=updates)
+        self.query = ("UPDATE {name_table} SET {updates}".format
+                      (name_table=name_table, updates=updates))
 
         if conditions:
 
@@ -208,17 +209,21 @@ class SQLRequests:
         return self
 
 
-    def delete(self, table, conditions=None):
+    def delete(self, name_table: str, conditions=None):
         """
-        Создает DELETE запрос.
+        Создает DELETE запрос. Удаление записи из таблицы
 
-        :param table: Название таблицы.
+        :param name_table: Название таблицы.
         :param conditions: Условия для удаления.
         :return: Экземпляр класса SQLRequests.
         """
-        self.query = f"DELETE FROM {table}"
+        self.query = ("DELETE FROM {name_table}".format
+                      (name_table=name_table))
+
         if conditions:
+
             self.where(conditions)
+
         return self
 
 
@@ -227,6 +232,7 @@ class SQLRequests:
         Сбрасывает текущий запрос.
         """
         self.query = ""
+
         return self
 
 

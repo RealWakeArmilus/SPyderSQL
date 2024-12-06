@@ -34,6 +34,7 @@ for tg_id in data_id:
                            ['tg_id', 'admin'],
                            (tg_id, False))
 
+# Обновляет данные в выбранных колонках
 MasterSQL.update_table(name_database,
                        'tg_users',
                        {'admin': True},
