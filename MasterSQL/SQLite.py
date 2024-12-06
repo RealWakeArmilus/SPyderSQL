@@ -1,4 +1,4 @@
-from AboutMasterSQL import SQLRequests
+from MasterSQL import SQLRequests
 import sqlite3 as sq
 
 
