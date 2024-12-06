@@ -57,6 +57,12 @@ new_data = MasterSQL.select_table(name_database,
 
 print('new_data_all_columns: ', new_data)
 
+# Вывод названий всех столбцов таблицы
+names_columns = MasterSQL.pragma_table(name_database,
+                                      'tg_users')
+
+print('names_columns: ', names_columns)
+
 
 # # Создает таблицу, если ее нет
 # MasterSQL.create_table(name_database,
