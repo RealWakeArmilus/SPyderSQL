@@ -27,6 +27,24 @@ def map_keys_to_values(keys: list, values: list) -> list:
     return formatted_keys_to_values
 
 
+# PRAGMA table_info запрос
+def pragma_table(name_database: str, name_table: str) -> list:
+    """
+    Запрос для вывода списка названий всех столбцов в таблице.
+
+    :param name_database: Название базы данных.
+    :param name_table: Название таблицы.
+    :return: Список названий всех столбцов в таблице.
+    """
+    database = sq.connect(name_database)
+    cursor = database.cursor()
+
+    cursor.execute("pragma table_info({name_table})".format
+                   (name_table=name_table))
+
+    return [row[1] for row in cursor.fetchall()]
+
+
 # CREATE запрос
 def create_table(name_database: str, name_table: str, columns: dict, id_primary_key: bool = False):
     """
@@ -130,10 +148,9 @@ def select_table(name_database: str, name_table: str, names_columns: list = '*')
 
     elif names_columns == '*':
 
-        cursor.execute("pragma table_info({name_table})".format(name_table=name_table))
-        columns = [row[1] for row in cursor.fetchall()]
+        names_columns = pragma_table(name_database, name_table)
 
-        formatted_data_for_output = map_keys_to_values(columns, data_table)
+        formatted_data_for_output = map_keys_to_values(names_columns, data_table)
 
     return formatted_data_for_output
 
