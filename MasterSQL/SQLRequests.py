@@ -1,7 +1,3 @@
-import logger
-from my_exception import IsinstanceError
-
-
 def makeup_columns(arguments: dict, columns: str = '') -> str:
     """
     Создание макета столбцов для таблиц базы данных
