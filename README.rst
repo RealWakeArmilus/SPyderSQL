@@ -3,6 +3,11 @@ MasterSQL
 #######
 
 
+.. image:: https://img.shields.io/pypi/l/mastersql.svg?style=flat-square
+    :target: https://opensource.org/licenses/MIT
+    :alt: MIT License
+
+
 Документация по использованию SQL-запросов
 ==========================================
 
