@@ -23,7 +23,7 @@ SQL (Structured Query Language) используется для работы с 
 Виды запросов
 -------------
 
-1. DDL (Data Definition Language) Управление структурой базы данных: создание, изменение, удаление таблиц или схем.
+DDL (Data Definition Language).
 
 - ``CREATE`` – создание таблицы или базы данных.
   Пример:
@@ -52,7 +52,7 @@ SQL (Structured Query Language) используется для работы с 
 
   Удаляет таблицу.
 
-2. DML (Data Manipulation Language) Работа с данными: добавление, обновление, удаление.
+DML (Data Manipulation Language).
 
 - ``SELECT`` – выборка данных из таблицы.
   Пример:
@@ -86,7 +86,7 @@ SQL (Structured Query Language) используется для работы с 
     DELETE FROM {name_table} WHERE age < 18;
   Удаляет всех пользователей младше 18 лет.
 
-3. DCL (Data Control Language) Управление правами доступа к базе.
+DCL (Data Control Language).
 
 - ``GRANT`` – предоставление прав.
   Пример:
@@ -104,14 +104,14 @@ SQL (Structured Query Language) используется для работы с 
     REVOKE SELECT ON {name_table} FROM 'admin';
   Удаляет права.  
 
-4. TCL (Transaction Control Language) Управление транзакциями.
+TCL (Transaction Control Language).
 
 - ``BEGIN`` – начало транзакции.
 - ``COMMIT`` – подтверждение изменений.
 - ``ROLLBACK`` – отмена изменений.
 
 Применение в конкретных случаях
-----------------------------------
+-------------------------------
 
 1. Создание аналитического отчета. Используем ``SELECT`` с функциями группировки, например, `GROUP BY` и `SUM`.
    Подсчёт выручки по регионам.  
