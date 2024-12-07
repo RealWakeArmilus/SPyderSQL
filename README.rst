@@ -1,3 +1,12 @@
+#######
+MasterSQL
+#######
+
+.. image:: https://img.shields.io/pypi/l/aiogram.svg?style=flat-square
+    :target: https://opensource.org/licenses/MIT
+    :alt: MIT License
+
+
 # Документация по использованию SQL-запросов
 
 ## Базовые принципы SQL-запросов
