@@ -2,15 +2,6 @@
 MasterSQL
 #######
 
-.. image:: https://img.shields.io/pypi/l/aiogram.svg?style=flat-square
-    :target: https://opensource.org/licenses/MIT
-    :alt: MIT License
-
-
-.. image:: https://img.shields.io/pypi/pyversions/aiogram.svg?style=flat-square
-    :target: https://pypi.python.org/pypi/aiogram
-    :alt: Supported python versions
-
 
 Документация по использованию SQL-запросов
 ==========================================
