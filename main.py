@@ -1,5 +1,5 @@
 from MasterSQL import SQLite, TypesSQL
-
+.
 
 # создание MasterSQL для базы данных SQLite
 MasterSQL = SQLite
