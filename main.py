@@ -1,11 +1,7 @@
-from MasterSQL import SQLite, TypesSQL
-
+from MasterSQL import SQLite, TypesSQLite
 
 # создание MasterSQL для базы данных SQLite
 MasterSQL = SQLite
-
-# Индикатор типа столбца
-type_column = TypesSQL.SQLite
 
 
 name_database = 'database/supremacy.db'
@@ -23,13 +19,13 @@ data_states = {
 # # Создает таблицу, если ее нет
 # MasterSQL.create_table(name_database,
 #                        'tg_users',
-#                        {'tg_id': type_colomn.integer.value},
+#                        {'tg_id': TypesSQLite.integer.value},
 #                        True)
 #
 # # Добавляет в таблицу новую колонку
 # MasterSQL.alter_table(name_database,
 #                       'tg_users',
-#                       {'admin': type_colomn.blob.value})
+#                       {'admin': TypesSQLite.blob.value})
 #
 # # Заполняет таблицу данными
 # for tg_id in data_id:
@@ -67,13 +63,13 @@ print('names_columns: ', names_columns)
 # # Создает таблицу, если ее нет
 # MasterSQL.create_table(name_database,
 #                        'states',
-#                        {'names' : type_colomn.text.value, 'tg_id' : type_colomn.integer.value},
+#                        {'names' : TypesSQLite.text.value, 'tg_id' : TypesSQLite.integer.value},
 #                        True)
 #
 # # Добавляет в таблицу новую колонку
 # MasterSQL.alter_table(name_database,
 #                       'states',
-#                       {'map_id' : type_colomn.integer.value})
+#                       {'map_id' : TypesSQLite.integer.value})
 #
 # # Удаляет таблицу, если она есть
 # MasterSQL.drop_table(name_database,
