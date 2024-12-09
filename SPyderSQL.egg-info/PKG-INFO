@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: SPyderSQL
-Version: 0.1.0
+Version: 0.1.1
 Summary: modern ORM and framework development SQL database
 Home-page: https://github.com/RealWakeArmilus/MasterSQL
 Author: Emil Artemev
@@ -11,17 +11,13 @@ Classifier: Operating System :: OS Independent
 Requires-Python: >=3.6
 Description-Content-Type: text/markdown
 License-File: LICENSE
-Requires-Dist: requests>=2.25.1
-Requires-Dist: numpy>=1.19.0
-Requires-Dist: pytest>=6.2.5
-Requires-Dist: flake8>=3.9.2
 
 #######
-MasterSQL
+SPyderSQL
 #######
 
 
-.. image:: https://img.shields.io/pypi/l/mastersql.svg?style=flat-square
+.. image:: https://img.shields.io/pypi/l/SPyderSQL.svg?style=flat-square
     :target: https://opensource.org/licenses/MIT
     :alt: MIT License
 

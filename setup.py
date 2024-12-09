@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="SPyderSQL",
-    version="0.1.0",
+    version="0.1.1",
     author="Emil Artemev",
     author_email="jordanman1300@gmail.com",
     description="modern ORM and framework development SQL database",
