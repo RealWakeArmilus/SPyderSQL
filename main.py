@@ -1,7 +1,8 @@
-from MasterSQL import SQLite, TypesSQLite
+from SPyderSQL import SQLite, TypesSQLite
 
-# создание MasterSQL для базы данных SQLite
-MasterSQL = SQLite
+
+# создание SPyderSQL для базы данных SQLite
+SPyderSQL = SQLite
 
 
 name_database = 'database/supremacy.db'
@@ -17,73 +18,73 @@ data_states = {
 
 
 # # Создает таблицу, если ее нет
-# MasterSQL.create_table(name_database,
+# SPyderSQL.create_table(name_database,
 #                        'tg_users',
 #                        {'tg_id': TypesSQLite.integer.value},
 #                        True)
 #
 # # Добавляет в таблицу новую колонку
-# MasterSQL.alter_table(name_database,
+# SPyderSQL.alter_table(name_database,
 #                       'tg_users',
 #                       {'admin': TypesSQLite.blob.value})
 #
 # # Заполняет таблицу данными
 # for tg_id in data_id:
-#     MasterSQL.insert_table(name_database,
+#     SPyderSQL.insert_table(name_database,
 #                            'tg_users',
 #                            ['tg_id', 'admin'],
 #                            (tg_id, False))
 #
 # # Обновляет данные в выбранных колонках
-# MasterSQL.update_table(name_database,
+# SPyderSQL.update_table(name_database,
 #                        'tg_users',
 #                        {'admin': True},
 #                        {'tg_id': 23971037})
 
 # Выборка данных из таблицы конкретных столбцов
-new_data = MasterSQL.select_table(name_database,
+new_data = SPyderSQL.select_table(name_database,
                                   'tg_users',
                                   ['id', 'tg_id'])
 
 print('new_data: ', new_data)
 
 # Выборка данных из таблицы всех столбцов
-new_data = MasterSQL.select_table(name_database,
+new_data = SPyderSQL.select_table(name_database,
                                   'tg_users')
 
 print('new_data_all_columns: ', new_data)
 
 # Вывод названий всех столбцов таблицы
-names_columns = MasterSQL.pragma_table(name_database,
+names_columns = SPyderSQL.pragma_table(name_database,
                                       'tg_users')
 
 print('names_columns: ', names_columns)
 
 
 # # Создает таблицу, если ее нет
-# MasterSQL.create_table(name_database,
+# SPyderSQL.create_table(name_database,
 #                        'states',
 #                        {'names' : TypesSQLite.text.value, 'tg_id' : TypesSQLite.integer.value},
 #                        True)
 #
 # # Добавляет в таблицу новую колонку
-# MasterSQL.alter_table(name_database,
+# SPyderSQL.alter_table(name_database,
 #                       'states',
 #                       {'map_id' : TypesSQLite.integer.value})
 #
 # # Удаляет таблицу, если она есть
-# MasterSQL.drop_table(name_database,
+# SPyderSQL.drop_table(name_database,
 #                      'users')
 #
 # # Заполняет таблицу данными
 # for key, value in data_states.items():
-#     MasterSQL.insert_table(name_database,
+#     SPyderSQL.insert_table(name_database,
 #                            'states',
 #                            ['names', 'tg_id'],
 #                            (value['name_state'], value['tg_id']))
 #
 # # Обновляет данные в выбранных колонках
-# MasterSQL.update_table(name_database,
+# SPyderSQL.update_table(name_database,
 #                        'states',
 #                        {'tg_id': 2525252525},
 #                        {'names': 'Нидерландская Новая Гвинея'})

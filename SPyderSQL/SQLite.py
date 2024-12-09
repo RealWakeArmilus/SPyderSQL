@@ -1,5 +1,5 @@
 from enum import Enum
-import MasterSQL.SQLRequests
+import SPyderSQL.SQLRequests
 import sqlite3 as sq
 
 
@@ -25,7 +25,7 @@ class TypesSQLite(Enum):
 
 
 # экземпляр класса по созданию SQL-запросов
-sql_builder = MasterSQL.SQLRequests.SQLite()
+sql_builder = SPyderSQL.SQLRequests.SQLite()
 
 
 # Сопоставляет ключи с элементами

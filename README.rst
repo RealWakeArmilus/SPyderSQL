@@ -1,9 +1,9 @@
 #######
-MasterSQL
+SPyderSQL
 #######
 
 
-.. image:: https://img.shields.io/pypi/l/mastersql.svg?style=flat-square
+.. image:: https://img.shields.io/pypi/l/SPyderSQL.svg?style=flat-square
     :target: https://opensource.org/licenses/MIT
     :alt: MIT License
 
