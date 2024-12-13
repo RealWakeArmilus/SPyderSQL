@@ -1,3 +1,5 @@
+
+
 def makeup_columns(arguments: dict, columns: str = '') -> str:
     """
     Создание макета столбцов для таблиц базы данных
@@ -12,7 +14,6 @@ def makeup_columns(arguments: dict, columns: str = '') -> str:
         for column_name, column_type in arguments.items()])
 
     return columns
-
 
 
 class SQLite:
