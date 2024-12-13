@@ -1,14 +1,16 @@
 from setuptools import setup, find_packages
+from SPyderSQL import __meta__
+
 
 setup(
     name="SPyderSQL",
-    version="0.1.1",
-    author="Emil Artemev",
-    author_email="jordanman1300@gmail.com",
-    description="modern ORM and framework development SQL database",
+    version=__meta__.__version__,
+    author=__meta__.__author__,
+    author_email=__meta__.__email__,
+    description=__meta__.__description__,
     long_description=open("README.rst", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
-    url="https://github.com/RealWakeArmilus/MasterSQL",
+    url=__meta__.__url__,
     packages=find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",

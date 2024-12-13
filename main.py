@@ -1,6 +1,5 @@
 from SPyderSQL import SQLite, TypesSQLite
 
-
 # создание SPyderSQL для базы данных SQLite
 SPyderSQL = SQLite
 

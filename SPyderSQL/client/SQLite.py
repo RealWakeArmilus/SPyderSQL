@@ -1,6 +1,9 @@
 from enum import Enum
-import SPyderSQL.SQLRequests
+from SPyderSQL.client import SQLRequests
 import sqlite3 as sq
+
+# экземпляр класса по созданию SQL-запросов
+sql_builder = SQLRequests.SQLite()
 
 
 class TypesSQLite(Enum):
@@ -22,10 +25,6 @@ class TypesSQLite(Enum):
     text = "TEXT DEFAULT ''"
     blob = 'BLOB DEFAULT False'
     numeric = 'NUMERIC DEFAULT '''
-
-
-# экземпляр класса по созданию SQL-запросов
-sql_builder = SPyderSQL.SQLRequests.SQLite()
 
 
 # Сопоставляет ключи с элементами
