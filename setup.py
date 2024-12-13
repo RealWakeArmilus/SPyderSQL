@@ -1,16 +1,15 @@
 from setuptools import setup, find_packages
-from SPyderSQL import __meta__
 
 
 setup(
     name="SPyderSQL",
-    version=__meta__.__version__,
-    author=__meta__.__author__,
-    author_email=__meta__.__email__,
-    description=__meta__.__description__,
+    version="0.1.2",
+    author="Emil Artemev",
+    author_email="jordanman1300@gmail.com",
+    description='SPyderSQL is a modern ORM framework for SQL database in Python.',
     long_description=open("README.rst", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
-    url=__meta__.__url__,
+    url='https://github.com/RealWakeArmilus/SPyderSQL',
     packages=find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
