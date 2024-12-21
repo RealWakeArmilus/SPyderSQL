@@ -98,22 +98,18 @@ class SQLite:
         :return: Экземпляр класса SQLRequests.
         """
         # Выписывание названий колонок
-        names_columns = ", ".join(names_columns)
+        names_columns_str = ", ".join(names_columns)
 
         # Подсчет колонок, с которыми будут взаимодействовать
-        count_columns : int = len(names_columns) + 1
+        count_columns : int = len(names_columns)
 
-        values_columns = []
+        values_columns = ["?"] * count_columns
 
-        for _ in 0, count_columns:
-            values_columns.append('?')
-
-        # Переход списка знаков "?" в формат str
-        values_columns = ', '.join(values_columns)
+        # Преобразование списка знаков "?" в str
+        values_columns_str  = ', '.join(values_columns)
 
         # Создание SQL-запроса
-        self.query = ("INSERT INTO {name_table} ({name_columns}) VALUES ({value_colomns})".format
-                      (name_table=name_table, name_columns=names_columns, value_colomns=values_columns))
+        self.query = f"INSERT INTO {name_table} ({names_columns_str}) VALUES ({values_columns_str})"
 
         return self
 

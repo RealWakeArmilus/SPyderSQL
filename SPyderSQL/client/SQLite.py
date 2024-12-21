@@ -122,8 +122,31 @@ def insert_table(name_database: str, name_table: str, names_columns: list, value
     :param names_columns: Список названий колонок таблиц.
     :param values_columns: Кортеж данных, которые заполняются в колонки таблиц.
     """
+    try:
+        if len(names_columns) != len(values_columns):
+            raise ValueError(f"Количество колонок ({len(names_columns)}) не совпадает с количеством значений ({len(values_columns)}).")
+    except ValueError as error:
+        print('Error: ', error)
+
+    # Открытие базы данных
     database = sq.connect(name_database)
-    database.execute(sql_builder.insert(name_table, names_columns).build(), values_columns)
+
+    try:
+        # Создание SQL-запроса
+        sql_query = sql_builder.insert(name_table, names_columns).build()
+
+        # Диагностика перед выполнением
+        print("Executing SQL Query:", sql_query)
+        print("With Values:", values_columns)
+
+        # Выполнение запроса
+        database.execute(sql_query, values_columns)
+        database.commit()
+    except sq.OperationalError as e:
+        print("SQLite OperationalError:", e)
+    except sq.Error as e:
+        print("SQLite Error:", e)
+
     database.commit()
 
 
