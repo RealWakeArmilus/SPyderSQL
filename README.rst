@@ -16,10 +16,12 @@ Features
 ========
 
 - Modularity and reusability
+- Async SQLite
 - Basic SQL functionality provided
 - Working with SQLite
 - Methods and functions are provided with detailed comments
 - Embedding Flexible Data Types for SQLite
+
 
 
 Code of Conduct

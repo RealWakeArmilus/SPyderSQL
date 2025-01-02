@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="SPyderSQL",
-    version="0.1.2",
+    version="0.2.0",
     author="Emil Artemev",
     author_email="jordanman1300@gmail.com",
     description='SPyderSQL is a modern ORM framework for SQL database in Python.',
@@ -17,10 +17,12 @@ setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        "requests>=2.25.1",
+        "requests>=2.32.0",
         "numpy>=1.19.0",
         "pytest>=6.2.5",
-        "flake8>=3.9.2"
+        "flake8>=3.9.2",
+        "setuptools~=75.6.0",
+        "aiosqlite~=0.20.0"
     ],
     python_requires=">=3.6",
 )

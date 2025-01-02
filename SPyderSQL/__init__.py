@@ -1,6 +1,7 @@
 from .__meta__ import __version__, __author__, __email__, __description__, __url__
 
 from .client import SQLite
+from .client.AsyncSQLite import AsyncSQLite
 from .client.SQLite import TypesSQLite
 from .logger import Logger
 
@@ -13,6 +14,7 @@ __all__ = (
     '__email__',
     '__description__',
     '__url__',
+    'AsyncSQLite',
     'SQLite',
     'TypesSQLite',
     'logger'

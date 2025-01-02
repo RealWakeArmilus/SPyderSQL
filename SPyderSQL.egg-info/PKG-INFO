@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: SPyderSQL
-Version: 0.1.2
+Version: 0.2.0
 Summary: SPyderSQL is a modern ORM framework for SQL database in Python.
 Home-page: https://github.com/RealWakeArmilus/SPyderSQL
 Author: Emil Artemev
@@ -11,10 +11,12 @@ Classifier: Operating System :: OS Independent
 Requires-Python: >=3.6
 Description-Content-Type: text/markdown
 License-File: LICENSE
-Requires-Dist: requests>=2.25.1
+Requires-Dist: requests>=2.32.0
 Requires-Dist: numpy>=1.19.0
 Requires-Dist: pytest>=6.2.5
 Requires-Dist: flake8>=3.9.2
+Requires-Dist: setuptools~=75.6.0
+Requires-Dist: aiosqlite~=0.20.0
 
 ==========
 SPyderSQL
@@ -34,10 +36,12 @@ Features
 ========
 
 - Modularity and reusability
+- Async SQLite
 - Basic SQL functionality provided
 - Working with SQLite
 - Methods and functions are provided with detailed comments
 - Embedding Flexible Data Types for SQLite
+
 
 
 Code of Conduct

@@ -12,6 +12,7 @@ SPyderSQL.egg-info/SOURCES.txt
 SPyderSQL.egg-info/dependency_links.txt
 SPyderSQL.egg-info/requires.txt
 SPyderSQL.egg-info/top_level.txt
+SPyderSQL/client/AsyncSQLite.py
 SPyderSQL/client/SQLRequests.py
 SPyderSQL/client/SQLite.py
 SPyderSQL/client/__init__.py
