@@ -1,4 +1,4 @@
-__version__ = "0.1.3"
+__version__ = "0.3.0"
 __author__ = "Emil Artemev"
 __email__ = "jordanman1300@gmail.com"
 __description__ = 'SPyderSQL is a modern ORM framework for SQL database in Python.'

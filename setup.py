@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="SPyderSQL",
-    version="0.2.0",
+    version="0.3.0",
     author="Emil Artemev",
     author_email="jordanman1300@gmail.com",
     description='SPyderSQL is a modern ORM framework for SQL database in Python.',

@@ -1,5 +1,107 @@
 import aiosqlite
-from typing import Optional, List, Union, Dict, Any
+from typing import Optional, List, Union, Dict, Any, Tuple
+import re
+
+
+def sanitize_table_name(table_name: str) -> str:
+    """
+    Проверяет и очищает название таблицы от потенциально опасных символов.
+    Оставляет только буквы, цифры и `_`. Если имя некорректно — вызывает исключение.
+    """
+    if not re.fullmatch(r"[a-zA-Z0-9_]+", table_name):
+        raise ValueError(f"⚠️ Небезопасное имя таблицы: {table_name}")
+
+    return table_name
+
+
+def sanitize_column_names(columns: List[str]) -> str:
+    """
+    Проверяет и очищает список столбцов от потенциально опасных символов.
+    Оставляет только буквы, цифры и `_`. Если имя некорректно — вызывает исключение.
+    Возвращает безопасный SQL-совместимый список столбцов.
+    """
+    if not all(re.fullmatch(r"[a-zA-Z0-9_]+", col) for col in columns):
+        raise ValueError(f"⚠️ Небезопасные названия столбцов: {columns}")
+
+    return ", ".join(columns)  # Возвращаем безопасные имена столбцов через запятую
+
+
+
+class SecurityAsyncSQLite:
+    """Класс для безопасной и асинхронной работы с SQLite без утечек памяти."""
+
+    def __init__(self, database_path: str):
+        """
+        Инициализирует соединение с SQLite
+
+        :param database_path: Путь к файлу базы данных SQLite.
+        :param _connection: Соединение к aiosqlite
+        """
+        self.database_path : str = database_path
+        self._connection: Optional[aiosqlite.Connection] = None
+
+
+    async def connect(self):
+        """Открывает соединение с базой данных (вызывать при старте приложения)"""
+        if self._connection is None:
+            self._connection = await aiosqlite.connect(self.database_path)
+            self._connection.row_factory = aiosqlite.Row  # Позволяет работать со словарями вместо кортежей
+
+    async def close(self):
+        """Закрывает соединение с базой данных (вызывать при завершении приложения)"""
+        if self._connection:
+            await self._connection.close()
+            self._connection = None
+
+
+    async def execute(self, query: str, params: Tuple[Any, ...] = ()):
+        """Выполняет SQL-запрос (INSERT, UPDATE, DELETE) с автоматическим коммитом"""
+        if self._connection is None:
+            raise ConnectionError("Database is not connected. Call `connect()` first.")
+
+        async with self._connection.execute(query, params) as cursor:
+            await self._connection.commit()
+
+    async def fetchone(self, query: str, params: Tuple[Any, ...] = ()) -> Optional[aiosqlite.Row]:
+        """Выполняет SQL-запрос и возвращает одну строку результата"""
+        if self._connection is None:
+            raise ConnectionError("Database is not connected. Call `connect()` first.")
+
+        async with self._connection.execute(query, params) as cursor:
+            return await cursor.fetchone()
+
+    async def fetchall(self, query: str, params: Tuple[Any, ...] = ()) -> List[aiosqlite.Row]:
+        """Выполняет SQL-запрос и возвращает все строки результата"""
+        if self._connection is None:
+            raise ConnectionError("Database is not connected. Call `connect()` first.")
+
+        async with self._connection.execute(query, params) as cursor:
+            return await cursor.fetchall()
+
+    async def fetch_stream(self, query: str, params: Tuple[Any, ...] = ()):
+        """Выполняет SQL-запрос и возвращает данные по одной строке (экономия памяти)"""
+        if self._connection is None:
+            raise ConnectionError("Database is not connected. Call `connect()` first.")
+
+        async with self._connection.execute(query, params) as cursor:
+            async for row in cursor:
+                yield row  # Возвращает одну строку за раз (экономия памяти)
+
+    async def execute_many(self, query: str, params_list: List[Tuple[Any, ...]]):
+        """Выполняет SQL-запрос с несколькими параметрами за один раз (быстрее, чем `execute`)"""
+        if self._connection is None:
+            raise ConnectionError("Database is not connected. Call `connect()` first.")
+
+        async with self._connection.executemany(query, params_list):
+            await self._connection.commit()
+
+
+
+
+
+
+
+
 
 
 def makeup_columns(arguments: dict, columns: str = '') -> str:
